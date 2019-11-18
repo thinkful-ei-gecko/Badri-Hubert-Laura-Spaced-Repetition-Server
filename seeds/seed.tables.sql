@@ -17,18 +17,30 @@ VALUES
 
 INSERT INTO "language" ("id", "name", "user_id")
 VALUES
-  (1, 'French', 1);
+  (1, 'SpanishMedTerms', 1);
 
 INSERT INTO "word" ("id", "language_id", "original", "translation", "next")
 VALUES
-  (1, 1, 'entraine toi', 'practice', 2),
-  (2, 1, 'bonjour', 'hello', 3),
-  (3, 1, 'maison', 'house', 4),
-  (4, 1, 'développeur', 'developer', 5),
-  (5, 1, 'traduire', 'translate', 6),
-  (6, 1, 'incroyable', 'amazing', 7),
-  (7, 1, 'chien', 'dog', 8),
-  (8, 1, 'chat', 'cat', null);
+  (1, 1, 'los pulmones', 'lungs', 2),
+  (2, 1, 'los riñones', 'kidneys', 3),
+  (3, 1, 'el hígado', 'liver', 4),
+  (4, 1, 'el corazón', 'heart', 5),
+  (5, 1, 'las amígdalas', 'tonsils', 6),
+  (6, 1, 'el cuello', 'neck', 7),
+  (7, 1, 'el hombro', 'shoulder', 8),
+  (8, 1, 'el tobillo', 'ankle', 9),
+  (9, 1, 'la espalda', 'back', 10),
+  (10, 1, 'la cabeza', 'head', 11),
+  (11, 1, 'la garganta', 'throat', 12),
+  (12, 1, 'la rodilla', 'knee', 13),
+  (13, 1, 'el hueso', 'bone', 14),
+  (14, 1, 'el oído', 'ear', 15),
+  (15, 1, 'la sangre', 'blood', 16),
+  (16, 1, 'la orina', 'urine', 17),
+  (17, 1, 'médula ósea', 'bone marrow', 18),
+  (18, 1, 'cálculo renal', 'kidney stone', 19),
+  (19, 1, 'la cirugía', 'surgery', 20),
+  (20, 1, 'desmayarse', 'to faint', null);
 
 UPDATE "language" SET head = 1 WHERE id = 1;
 

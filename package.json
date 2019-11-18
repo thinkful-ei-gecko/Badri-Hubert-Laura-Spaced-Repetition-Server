@@ -1,5 +1,5 @@
 {
-  "name": "express-boilerplate",
+  "name": "BHLSpacedRep",
   "version": "0.0.1",
   "description": "",
   "main": "src/server.js",
@@ -7,12 +7,13 @@
     "test": "mocha --require test/setup.js",
     "dev": "nodemon src/server.js",
     "migrate": "postgrator --config postgrator-config.js",
+    "migrate:test": "env NODE_ENV=test npm run migrate",
     "start": "node src/server.js",
     "predeploy": "npm audit",
     "deploy": "git push heroku master"
   },
   "keywords": [],
-  "author": "Tom `tomatao` HT <tomht@thinkful.com>",
+  "author": "Badri Hubert Laura",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -23,13 +24,13 @@
     "jsonwebtoken": "^8.5.0",
     "knex": "^0.19.5",
     "morgan": "^1.9.1",
-    "pg": "^7.8.2"
+    "pg": "^7.12.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
-    "postgrator-cli": "^3.1.0",
+    "postgrator-cli": "^3.3.0",
     "supertest": "^3.3.0"
   }
 }
