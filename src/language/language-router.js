@@ -50,12 +50,12 @@ languageRouter
         req.app.get('db'),
         req.user.id
       )
-      res.json({ head })
+      res.json(head)
       next()
     } catch (e) {
       next(e)
     }
-    // LanguageService.get(
+    // LanguageService.getHead(
     //   req.app.get('db'),
     //   req.user.id
     // )
@@ -66,7 +66,7 @@ languageRouter
 languageRouter
   .post('/guess', async (req, res, next) => {
     // implement me
-    res.send('implement me!')
+    res.send('hello')
   })
 
 module.exports = languageRouter
