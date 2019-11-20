@@ -2,6 +2,7 @@ const express = require('express');
 const LanguageService = require('./language-service');
 const { requireAuth } = require('../middleware/jwt-auth');
 
+const jsonBodyParser = express.json();
 const languageRouter = express.Router();
 
 languageRouter
@@ -56,9 +57,10 @@ languageRouter
   })
 
 languageRouter
-  .post('/guess', async (req, res, next) => {
+  .post('/guess', jsonBodyParser, async (req, res, next) => {
     const db = req.app.get('db');
-    let { guess } = req.body;
+    
+    const guess = req.body;
     let currentWord;
 
     if (!guess) {
@@ -68,16 +70,31 @@ languageRouter
     try {
       let head = await LanguageService.getHead(db, req.user.id)
       currentWord = await LanguageService.getOriginalWord(db, req.language.id, head.nextWord)
-      correct = currentWord.translation.toLowerCase() === guess.toLowerCase()
+      let correct = currentWord.translation.toLowerCase() === guess.guess.toLowerCase()
 
       if(correct) {
         currentWord.memory_value *=2;
         currentWord.correct_count++;
         req.language.total_score++
-
+        res.send({
+          "nextWord": currentWord.original,
+          "wordCorrectCount": currentWord.correct_count,
+          "wordIncorrectCount": currentWord.incorrect_count,
+          "totalScore": req.language.total_score,
+          "answer": currentWord.translation,
+          "isCorrect": true
+        })
       } else {
         currentWord.memory_value = 1;
         currentWord.incorrect_count++;
+        res.send({
+          "nextWord": currentWord.original,
+          "wordCorrectCount": currentWord.correct_count,
+          "wordIncorrectCount": currentWord.incorrect_count,
+          "totalScore": req.language.total_score,
+          "answer": currentWord.translation,
+          "isCorrect": false
+        })
       }
     } catch(e) {
       next(e)
