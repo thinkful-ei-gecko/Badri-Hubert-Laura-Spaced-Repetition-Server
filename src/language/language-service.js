@@ -44,4 +44,4 @@ const LanguageService = {
   },
 }
 
-module.exports = LanguageService
+module.exports = LanguageService;
