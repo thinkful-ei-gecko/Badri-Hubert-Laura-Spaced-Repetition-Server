@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
-const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
+const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
 
 const UserService = {
   hasUserWithUserName(db, username) {
@@ -46,7 +46,7 @@ const UserService = {
       const [languageId] = await trx
         .into('language')
         .insert([
-          { name: 'French', user_id },
+          { name: 'Spanish', user_id },
         ], ['id'])
 
       // when inserting words,
@@ -55,18 +55,31 @@ const UserService = {
       const seq = await db
         .from('word_id_seq')
         .select('last_value')
-        .first()
+        .first();
 
       const languageWords = [
-        ['entraine toi', 'practice', 2],
-        ['bonjour', 'hello', 3],
-        ['maison', 'house', 4],
-        ['développeur', 'developer', 5],
-        ['traduire', 'translate', 6],
-        ['incroyable', 'amazing', 7],
-        ['chien', 'dog', 8],
-        ['chat', 'cat', null],
-      ]
+        ['los pulmones', 'lungs', 2],
+        ['los riñones', 'kidneys', 3],
+        ['el hígado', 'liver', 4],
+        ['el corazón', 'heart', 5],
+        ['las amígdalas', 'tonsils', 6],
+        ['el cuello', 'neck', 7],
+        ['el hombro', 'shoulder', 8],
+        ['el tobillo', 'ankle', 9],
+        ['la espalda', 'back', 10],
+        ['la cabeza', 'head', 11],
+        ['la garganta', 'throat', 12],
+        ['la rodilla', 'knee', 13],
+        ['el hueso', 'bone', 14],
+        ['el oído', 'ear', 15],
+        ['la sangre', 'blood', 16],
+        ['la orina', 'urine', 17],
+        ['médula ósea', 'bone marrow', 18],
+        ['cálculo renal', 'kidney stone', 19],
+        ['la cirugía', 'surgery', 20],
+        ['desmayarse', 'to faint', null]
+      ];
+    
 
       const [languageHeadId] = await trx
         .into('word')
@@ -80,7 +93,7 @@ const UserService = {
               : null
           })),
           ['id']
-        )
+        );
 
       await trx('language')
         .where('id', languageId.id)
@@ -91,4 +104,4 @@ const UserService = {
   },
 }
 
-module.exports = UserService
+module.exports = UserService;

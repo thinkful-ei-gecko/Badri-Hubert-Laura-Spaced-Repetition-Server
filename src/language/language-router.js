@@ -1,8 +1,8 @@
-const express = require('express')
-const LanguageService = require('./language-service')
-const { requireAuth } = require('../middleware/jwt-auth')
+const express = require('express');
+const LanguageService = require('./language-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 
-const languageRouter = express.Router()
+const languageRouter = express.Router();
 
 languageRouter
   .use(requireAuth)
@@ -14,29 +14,21 @@ languageRouter
       )
 
       if (!language)
-        return res.status(404).json({
-          error: `You don't have any languages`,
-        })
+        return res.status(404).json({ error: `You don't have any languages` })
 
       req.language = language
       next()
     } catch (error) {
       next(error)
     }
-  })
+  });
 
 languageRouter
   .get('/', async (req, res, next) => {
     try {
-      const words = await LanguageService.getLanguageWords(
-        req.app.get('db'),
-        req.language.id,
-      )
+      const words = await LanguageService.getLanguageWords( req.app.get('db'), req.language.id );
 
-      res.json({
-        language: req.language,
-        words,
-      })
+      res.json({ language: req.language, words })
       next()
     } catch (error) {
       next(error)
@@ -93,4 +85,4 @@ languageRouter
     }
   })
 
-module.exports = languageRouter
+module.exports = languageRouter;
