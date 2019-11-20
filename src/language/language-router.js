@@ -56,7 +56,7 @@ languageRouter
   })
 
 languageRouter
-  .post('/guess', (req, res, next) => {
+  .post('/guess', async (req, res, next) => {
     const db = req.app.get('db');
     let { guess } = req.body;
     let currentWord;
