@@ -49,6 +49,14 @@ const LanguageService = {
       .select('*')
       .where({ original, language_id})
       .first()
+  },
+
+  updateWord(db, language_id, word) {
+    return db
+      .from('word')
+      .select('*')
+      .where({ original, language_id})
+      .update(word)
   }
 }
 
