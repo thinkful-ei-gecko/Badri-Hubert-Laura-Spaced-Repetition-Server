@@ -64,9 +64,32 @@ languageRouter
   })
 
 languageRouter
-  .post('/guess', async (req, res, next) => {
-    // implement me
-    res.send('hello')
+  .post('/guess', (req, res, next) => {
+    const db = req.app.get('db');
+    let { guess } = req.body;
+    let currentWord;
+
+    if (!guess) {
+      return res.status(400).json({error: `Missing 'guess' in request body`})
+    }
+
+    try {
+      let head = await LanguageService.getHead(db, req.user.id)
+      currentWord = await LanguageService.getOriginalWord(db, req.language.id, head.nextWord)
+      correct = currentWord.translation.toLowerCase() === guess.toLowerCase()
+
+      if(correct) {
+        currentWord.memory_value *=2;
+        currentWord.correct_count++;
+        req.language.total_score++
+
+      } else {
+        currentWord.memory_value = 1;
+        currentWord.incorrect_count++;
+      }
+    } catch(e) {
+      next(e)
+    }
   })
 
 module.exports = languageRouter
