@@ -70,19 +70,22 @@ languageRouter
 
     try {
       let head = await LanguageService.getHead(db, req.user.id)
+      console.log(head.nextWord)
       currentWord = await LanguageService.getOriginalWord(db, req.language.id, head.nextWord)
       let correct = currentWord.translation.toLowerCase() === guess.guess.toLowerCase()
 
       if(correct) {
         currentWord.memory_value *=2;
-        currentWord.correct_count++;
-        req.language.total_score++
+        head.wordCorrectCount++;
+        head.totalScore++
+        head.nextWord = "los riñones"
+        LanguageService.updateWord(db, req.language.id, { currentWord })
         res.send({
-          "nextWord": currentWord.original,
-          "wordCorrectCount": currentWord.correct_count,
-          "wordIncorrectCount": currentWord.incorrect_count,
-          "totalScore": req.language.total_score,
-          "answer": currentWord.translation,
+          "nextWord": head.nextWord,
+          "wordCorrectCount": head.wordCorrectCount,
+          "wordIncorrectCount": head.wordIncorrectCount,
+          "totalScore": head.totalScore,
+          "answer": "los pulmones",
           "isCorrect": true
         })
       } else {
