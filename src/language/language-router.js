@@ -59,10 +59,10 @@ languageRouter
 languageRouter
   .post('/guess', jsonBodyParser, async (req, res, next) => {
     const db = req.app.get('db');
-    
-    const guess = req.body;
+
+    const {guess} = req.body;
     let currentWord;
-    let correct;
+    let isCorrect;
 
     if (!guess) {
       return res.status(400).json({error: `Missing 'guess' in request body`})
@@ -70,39 +70,55 @@ languageRouter
 
     try {
       let head = await LanguageService.getHead(db, req.user.id)
-      console.log(head.nextWord)
+      //console.log(head.nextWord)
       currentWord = await LanguageService.getOriginalWord(db, req.language.id, head.nextWord)
-      let correct = currentWord.translation.toLowerCase() === guess.guess.toLowerCase()
+      req.language.head = currentWord.next;
+      isCorrect = currentWord.translation.toLowerCase() === guess.toLowerCase()
 
-      if(correct) {
+      if(isCorrect) {
         currentWord.memory_value *=2;
-        head.wordCorrectCount++;
-        head.totalScore++
-        head.nextWord = "los riñones"
-        LanguageService.updateWord(db, req.language.id, { currentWord })
-        res.send({
-          "nextWord": head.nextWord,
-          "wordCorrectCount": head.wordCorrectCount,
-          "wordIncorrectCount": head.wordIncorrectCount,
-          "totalScore": head.totalScore,
-          "answer": "los pulmones",
-          "isCorrect": true
-        })
+        currentWord.wordCorrectCount++;
+        req.language.total_score++;
+        // head.nextWord = "los riñones"
+        // res.send({
+        //   "nextWord": currentWord.nextWord,
+        //   "wordCorrectCount": currentWord.wordCorrectCount,
+        //   "wordIncorrectCount": currentWord.wordIncorrectCount,
+        //   "totalScore": currentWord.totalScore,
+        //   "answer": currentWord.translation,
+        //   "isCorrect": true
+        // })
       } else {
         currentWord.memory_value = 1;
         currentWord.incorrect_count++;
-        res.send({
-          "nextWord": currentWord.original,
-          "wordCorrectCount": currentWord.correct_count,
-          "wordIncorrectCount": currentWord.incorrect_count,
-          "totalScore": req.language.total_score,
-          "answer": currentWord.translation,
-          "isCorrect": false
-        })
+        // res.send({
+        //   "nextWord": currentWord.nextWord,
+        //   "wordCorrectCount": currentWord.correct_count,
+        //   "wordIncorrectCount": currentWord.incorrect_count,
+        //   "totalScore": req.language.total_score,
+        //   "answer": currentWord.translation,
+        //   "isCorrect": false
+        // })
       }
+      // await LanguageService.updateLanguage(db, req.language.id, req.language)
+      // let tempWord;
+
+      // currentWord.next = tempWord.next;
+      // tempWord.next = currentWord.id;
+      // await LanguageService.updateWord(db, currentWord.id, currentWord);
+      // await LanguageService.updateWord(db, tempWord.id, tempWord);
     } catch(e) {
       next(e)
     }
+
+    LanguageService.getHead(db, req.user.id)
+      .then(result => {
+        result.totalScore = req.language.total_score;
+        result.answer = currentWord.translation;
+        result.isCorrect = isCorrect;
+        return res.status(200).json(result)
+      })
+      .catch(e => next(e))
   })
 
 module.exports = languageRouter;

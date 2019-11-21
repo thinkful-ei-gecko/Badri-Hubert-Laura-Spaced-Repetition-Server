@@ -34,7 +34,7 @@ const LanguageService = {
       .from('language')
       .select(
         'original AS nextWord',
-        'total_score AS totalScore',
+        'language.total_score as totalScore',
         'correct_count AS wordCorrectCount',
         'incorrect_count AS wordIncorrectCount'
         )
@@ -51,12 +51,18 @@ const LanguageService = {
       .first()
   },
 
-  updateWord(db, language_id, word) {
+  updateWord(db, id, newWord) {
     return db
       .from('word')
-      .select('*')
-      .where({ original, language_id})
-      .update(word)
+      .update(newWord)
+      .where({ id })
+  },
+
+  updateLanguage(db, id, newLang) {
+    return db
+      .from('language')
+      .update(newLang)
+      .where({id})
   }
 }
 
