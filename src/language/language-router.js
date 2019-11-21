@@ -77,7 +77,7 @@ languageRouter
 
       if(isCorrect) {
         currentWord.memory_value *=2;
-        currentWord.wordCorrectCount++;
+        currentWord.correct_count++;
         req.language.total_score++;
         // head.nextWord = "los riñones"
         // res.send({
@@ -114,6 +114,8 @@ languageRouter
     LanguageService.getHead(db, req.user.id)
       .then(result => {
         result.totalScore = req.language.total_score;
+        result.wordCorrectCount = currentWord.correct_count;
+        result.wordIncorrectCount = currentWord.incorrect_count;
         result.answer = currentWord.translation;
         result.isCorrect = isCorrect;
         return res.status(200).json(result)

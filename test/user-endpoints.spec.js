@@ -46,7 +46,7 @@ describe('User Endpoints', function () {
       })
     })
 
-    it(`responds 400 'Password be longer than 8 characters' when empty password`, () => {
+    it(`responds 400 'Password must be longer than 8 characters' when empty password`, () => {
       const userShortPassword = {
         username: 'test username',
         password: '1234567',
@@ -55,10 +55,10 @@ describe('User Endpoints', function () {
       return supertest(app)
         .post('/api/user')
         .send(userShortPassword)
-        .expect(400, { error: `Password be longer than 8 characters` })
+        .expect(400, { error: `Password must be longer than 8 characters` })
     })
 
-    it(`responds 400 'Password be less than 72 characters' when long password`, () => {
+    it(`responds 400 'Password must be less than 72 characters' when long password`, () => {
       const userLongPassword = {
         username: 'test username',
         password: '*'.repeat(73),
@@ -67,7 +67,7 @@ describe('User Endpoints', function () {
       return supertest(app)
         .post('/api/user')
         .send(userLongPassword)
-        .expect(400, { error: `Password be less than 72 characters` })
+        .expect(400, { error: `Password must be less than 72 characters` })
     })
 
     it(`responds 400 error when password starts with spaces`, () => {
@@ -172,17 +172,17 @@ describe('User Endpoints', function () {
           name: 'test name',
         }
         const expectedList = {
-          name: 'French',
+          name: 'Spanish',
           total_score: 0,
           words: [
-            { original: 'entraine toi', translation: 'practice' },
-            { original: 'bonjour', translation: 'hello' },
-            { original: 'maison', translation: 'house' },
-            { original: 'développeur', translation: 'developer' },
-            { original: 'traduire', translation: 'translate' },
-            { original: 'incroyable', translation: 'amazing' },
-            { original: 'chien', translation: 'dog' },
-            { original: 'chat', translation: 'cat' },
+            { original: 'los pulmones', translation: 'lungs' },
+            { original: 'los riñones', translation: 'kidneys' },
+            { original: 'el hígado', translation: 'liver' },
+            { original: 'el corazón', translation: 'heart' },
+            { original: 'las amígdalas', translation: 'tonsils' },
+            { original: 'el cuello', translation: 'neck' },
+            { original: 'el hombro', translation: 'shoulder' },
+            { original: 'el tobillo', translation: 'ankle' },
           ]
         }
         return supertest(app)
