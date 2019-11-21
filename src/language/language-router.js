@@ -48,12 +48,6 @@ languageRouter
     } catch (e) {
       next(e)
     }
-    // LanguageService.getHead(
-    //   req.app.get('db'),
-    //   req.user.id
-    // )
-    //   .then(head => res.status(200).json(head))
-    //   .catch(next)
   })
 
 languageRouter
@@ -70,8 +64,10 @@ languageRouter
 
     try {
       let head = await LanguageService.getHead(db, req.user.id)
-      //console.log(head.nextWord)
       currentWord = await LanguageService.getOriginalWord(db, req.language.id, head.nextWord)
+      if (currentWord.next === null) {
+        LanguageService.resetHead(db)
+      }
       req.language.head = currentWord.next;
       isCorrect = currentWord.translation.toLowerCase() === guess.toLowerCase()
 
@@ -79,34 +75,18 @@ languageRouter
         currentWord.memory_value *=2;
         currentWord.correct_count++;
         req.language.total_score++;
-        // head.nextWord = "los riñones"
-        // res.send({
-        //   "nextWord": currentWord.nextWord,
-        //   "wordCorrectCount": currentWord.wordCorrectCount,
-        //   "wordIncorrectCount": currentWord.wordIncorrectCount,
-        //   "totalScore": currentWord.totalScore,
-        //   "answer": currentWord.translation,
-        //   "isCorrect": true
-        // })
       } else {
         currentWord.memory_value = 1;
         currentWord.incorrect_count++;
-        // res.send({
-        //   "nextWord": currentWord.nextWord,
-        //   "wordCorrectCount": currentWord.correct_count,
-        //   "wordIncorrectCount": currentWord.incorrect_count,
-        //   "totalScore": req.language.total_score,
-        //   "answer": currentWord.translation,
-        //   "isCorrect": false
-        // })
       }
-      // await LanguageService.updateLanguage(db, req.language.id, req.language)
-      // let tempWord;
+      await LanguageService.updateLanguage(db, req.language.id, req.language)
+      let tempWord;
+      tempWord = currentWord
 
-      // currentWord.next = tempWord.next;
-      // tempWord.next = currentWord.id;
-      // await LanguageService.updateWord(db, currentWord.id, currentWord);
-      // await LanguageService.updateWord(db, tempWord.id, tempWord);
+      currentWord.next = tempWord.next;
+      tempWord.next = currentWord.id;
+      await LanguageService.updateWord(db, currentWord.id, currentWord);
+      await LanguageService.updateWord(db, tempWord.id, tempWord);
     } catch(e) {
       next(e)
     }

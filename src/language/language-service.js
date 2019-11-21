@@ -63,7 +63,15 @@ const LanguageService = {
       .from('language')
       .update(newLang)
       .where({id})
+  },
+
+  resetHead(db){
+    return db
+      .from('language')
+      .update(1)
+      .where({head})
   }
+
 }
 
 module.exports = LanguageService;

@@ -183,6 +183,18 @@ describe('User Endpoints', function () {
             { original: 'el cuello', translation: 'neck' },
             { original: 'el hombro', translation: 'shoulder' },
             { original: 'el tobillo', translation: 'ankle' },
+            { original: 'la espalda', translation: 'back' },
+            { original: 'la cabeza', translation: 'head' },
+            { original: 'la garganta', translation: 'throat' },
+            { original: 'la rodilla', translation: 'knee' },
+            { original: 'el hueso', translation: 'bone' },
+            { original: 'el oído', translation: 'ear' },
+            { original: 'la sangre', translation: 'blood' },
+            { original: 'la orina', translation: 'urine' },
+            { original: 'médula ósea', translation: 'bone marrow' },
+            { original: 'cálculo renal', translation: 'kidney stone' },
+            { original: 'la cirugía', translation: 'surgery' },
+            { original: 'desmayarse', translation: 'to faint' },
           ]
         }
         return supertest(app)
