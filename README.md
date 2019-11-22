@@ -10,8 +10,11 @@ This is the server portion of our spaced repetition application. If you ever wan
 
 ### Endpoints
 ` GET /api/language` - Grabs the language the user wants to learn along with the vocabulary words
+
 ` GET /api/language/head ` - Gets the first word in the vocabulary list
+
 ` POST /api/language/guess ` - This endpoint returns a correct or incorrect object of the translated word
+
 
 #### Technologies
 * Node.js
