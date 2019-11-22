@@ -1,4 +1,24 @@
-# Spaced repetition API!
+# Spanish Medical Terms - Spaced repetition API!
+
+* Link to live app:
+* Link to client repo: https://github.com/thinkful-ei-gecko/Badri-Hubert-Lauara-client
+
+## Teammates: Badri, Hubert, Laura
+
+### Summary
+This is the server portion of our spaced repetition application. If you ever want to learn medical terminology in the Spanish language, this application is a good beginning start for you. We have a study section to prepare you, and once ready, hop onto the quiz section to test your translations.
+
+### Endpoints
+` GET /api/language` - Grabs the language the user wants to learn along with the vocabulary words
+` GET /api/language/head ` - Gets the first word in the vocabulary list
+` POST /api/language/guess ` - This endpoint returns a correct or incorrect object of the translated word
+
+#### Technologies
+* Node.js
+* PostgreSQL
+* React.js
+* Heroku
+* Express.js
 
 ## Local dev setup
 

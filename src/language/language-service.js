@@ -70,7 +70,16 @@ const LanguageService = {
       .from('language')
       .update(1)
       .where({head})
-  }
+  },
+
+  getNextWord(db, start) {
+    return db
+      .from('word')
+      .select('*')
+      .innerJoin('word AS wordTable', 'word.next', 'wordTable.id')
+      .where({ 'word.id': start })
+      .first()
+  },
 
 }
 

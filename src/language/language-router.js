@@ -65,9 +65,9 @@ languageRouter
     try {
       let head = await LanguageService.getHead(db, req.user.id)
       currentWord = await LanguageService.getOriginalWord(db, req.language.id, head.nextWord)
-      if (currentWord.next === null) {
-        LanguageService.resetHead(db)
-      }
+      // if (currentWord.next === null) {
+      //   LanguageService.resetHead(db)
+      // }
       req.language.head = currentWord.next;
       isCorrect = currentWord.translation.toLowerCase() === guess.toLowerCase()
 
@@ -80,8 +80,16 @@ languageRouter
         currentWord.incorrect_count++;
       }
       await LanguageService.updateLanguage(db, req.language.id, req.language)
+
+      let newID = currentWord.id;
       let tempWord;
-      tempWord = currentWord
+
+      for(let i=0; i<currentWord.memory_value; i++) {
+        tempWord = await LanguageService.getNextWord(db, newID);
+        newID = tempWord.id;
+      }
+
+      //tempWord = currentWord
 
       currentWord.next = tempWord.next;
       tempWord.next = currentWord.id;
